@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  config:
+    container_name: config
+    image: gasparbarancelli/config:1.0
+    restart: always
+    environment:
+      URI: 'https://github.com/gasparbarancelli/microservices-2.git'
+    ports:
+      - 8888:8888
+    expose:
+      - 8888
+
+  discovery:
+    container_name: discovery
+    image: gasparbarancelli/discovery:2.0
+    restart: always
+    environment:
+      CONFIG_SERVER_URL: 'http://config:8888'
+    ports:
+      - 8761:8761
+    expose:
+      - 8761
+    depends_on:
+      - config

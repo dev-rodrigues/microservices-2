@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gasparbarancelli</groupId>
-	<artifactId>config</artifactId>
-	<version>1.0</version>
-	<name>config</name>
+	<artifactId>discovery</artifactId>
+	<version>2.0</version>
+	<name>discovery</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -22,9 +22,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-config-server</artifactId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -65,14 +68,14 @@
 						<image>openjdk:15-jdk-slim-buster</image>
 					</from>
 					<to>
-						<image>gasparbarancelli/config:${version}</image>
+						<image>gasparbarancelli/${artifactId}:${version}</image>
 					</to>
 					<container>
 						<jvmFlags>
 							<jvmFlag>-Xms128m</jvmFlag>
 							<jvmFlag>-Xmx256m</jvmFlag>
 						</jvmFlags>
-						<mainClass>com.gasparbarancelli.config.ConfigApplication</mainClass>
+						<mainClass>com.gasparbarancelli.discovery.DiscoveryApplication</mainClass>
 					</container>
 				</configuration>
 			</plugin>
