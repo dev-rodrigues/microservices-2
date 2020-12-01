@@ -2,9 +2,12 @@ package com.gasparbarancelli.vendas.converter;
 
 import com.gasparbarancelli.vendas.dto.VendaItemPersistDto;
 import com.gasparbarancelli.vendas.dto.VendaPersistDto;
+import com.gasparbarancelli.vendas.external.CupomService;
 import com.gasparbarancelli.vendas.model.Venda;
 import com.gasparbarancelli.vendas.model.VendaItem;
 import com.gasparbarancelli.vendas.repository.ProdutoRepository;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -15,9 +18,11 @@ import java.util.Set;
 public class VendaPersistDtoConverter {
 
     private final ProdutoRepository produtoRepository;
+    private final CupomService cupomService;
 
-    public VendaPersistDtoConverter(ProdutoRepository produtoRepository) {
+    public VendaPersistDtoConverter(ProdutoRepository produtoRepository, CupomService cupomService) {
         this.produtoRepository = produtoRepository;
+        this.cupomService = cupomService;
     }
 
     public Venda toVenda(VendaPersistDto dto) {
@@ -31,13 +36,12 @@ public class VendaPersistDtoConverter {
             }
         }
 
-        if (dto.getCupom().isPresent()) {
-
+        BigDecimal desconto = BigDecimal.ZERO;
+        if (dto.getCupom().isPresent() && StringUtils.isNotBlank(dto.getCupom().get())) {
+            desconto = cupomService.getDescontoByCupom(dto.getCupom().get());
         }
 
-        // todo comunicacao com o servico de cupons para aplicar o desconto
-
-        return new Venda(vendaItemList, BigDecimal.ZERO, dto.getEmail());
+        return new Venda(vendaItemList, desconto, dto.getEmail());
     }
 
 }
