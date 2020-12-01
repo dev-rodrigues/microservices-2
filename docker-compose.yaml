@@ -16,6 +16,16 @@ services:
     expose:
       - 3307
 
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    hostname: redis
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+
   config:
     container_name: config
     image: gasparbarancelli/config:1.0
