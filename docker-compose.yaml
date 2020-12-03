@@ -1,6 +1,15 @@
 version: '3'
 services:
 
+  trace:
+    container_name: trace
+    image: openzipkin/zipkin
+    restart: always
+    ports:
+      - 9411:9411
+    expose:
+      - 9411
+
   mysql:
     container_name: mysql
     image: mysql:5.7
@@ -63,12 +72,13 @@ services:
 
   produtos:
     container_name: produtos
-    image: gasparbarancelli/produtos:1.0
+    image: gasparbarancelli/produtos:3.0
     restart: always
     environment:
       CONFIG_SERVER_URL: 'http://config:8888'
       EUREKA_URL: 'http://discovery:8761/eureka/'
       JMS_URL: 'tcp://jms:61616'
+      ZIPKIN_URL: 'http://trace:9411/'
     ports:
       - 8081:8081
     depends_on:
